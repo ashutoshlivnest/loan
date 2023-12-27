@@ -1,0 +1,53 @@
+CREATE TABLE banks (
+    bank_id INT PRIMARY KEY,
+    bank_name VARCHAR(255)
+);
+
+CREATE TABLE status (
+    status_id INT PRIMARY KEY,
+    status_name VARCHAR(255),
+    priority INT (255)
+);
+
+CREATE TABLE loan (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    lead_id INT(255),
+    status_id INT(255),
+    bank_id INT(255),
+    sanction_date DATE,
+    sanction_letter VARCHAR(255),
+    sanction_amount DECIMAL(15, 2),
+    updated_by VARCHAR(255),
+    created_at DATETIME,
+    updated_at DATETIME,
+    active CHAR(1) DEFAULT 'Y',
+    FOREIGN KEY (status_id) REFERENCES status(status_id),
+    FOREIGN KEY (bank_id) REFERENCES banks(bank_id)
+);
+
+
+CREATE TABLE disbursement_followup (
+    disbursement_id INT(255) AUTO_INCREMENT,
+    loanid INT(255),
+    phase VARCHAR(255),
+    disbursement_amount INT (255),
+    disbursement_date DATE,
+    updatedby VARCHAR(255),
+    created_at DATETIME,
+    updated_at DATETIME,
+    active CHAR(1) DEFAULT 'Y',
+    FOREIGN KEY (loanid) REFERENCES loan(id)
+);
+
+CREATE TABLE loan_followup (
+    followup_id INT(255) AUTO_INCREMENT, 
+    loanid INT (255),
+    followup_type VARCHAR(255),
+    remark TEXT,
+    followup_date DATE,
+    updated_by VARCHAR(255),
+    created_at DATETIME,
+    updated_at DATETIME,
+    active CHAR(1) DEFAULT 'Y',
+    FOREIGN KEY (loanid) REFERENCES loan(id)
+);
